@@ -1,9 +1,9 @@
-package edu.main;
+package smoge.main;
 
-import edu.species.Gene;
-import edu.species.RNApol;
-import edu.species.Ribossoma;
-import edu.species.Spliceosoma;
+import smoge.species.Gene;
+import smoge.species.RNApol;
+import smoge.species.Ribossoma;
+import smoge.species.Spliceosoma;
 
 import java.util.Random;
 

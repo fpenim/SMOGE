@@ -1,4 +1,4 @@
-package edu.species;
+package smoge.species;
 
 /**
  * Created by fpenim on 12/12/2015.
