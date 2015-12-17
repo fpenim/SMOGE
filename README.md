@@ -13,14 +13,4 @@ weaknesses, approaches, languages and algorithms used.
 
 Here we present a model developed in Java, which is an object-oriented
 language or object-oriented programming (OOP) implementing the Gillespie’s
-algorithm. The model receives as input an array of 19 biological parameters. Although
-at first the model was time consuming and intense, it was optimized reducing the
-simulation time in approximately 250%.
-
-With this model we wish to take a closer look at the regulation of gene
-expression, evaluating it with greater accuracy. For that purpose we varied the values
-of the transcription initiation, RNA degradation and protein degradation rate constants.
-The results evidenced that the transcription initiation and RNA degradation present the
-same level of control towards the influence of pre-mRNA, mRNA and protein numbers;
-in terms of protein numbers, their influence is lower when compared with the protein
-degradation constant (which has no influence on RNAs numbers). 
+algorithm.
