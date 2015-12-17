@@ -6,67 +6,63 @@ import java.util.ArrayList;
  * Created by fpenim on 12/12/2015.
  */
 public class mRNA {
-    private int dim; // Dimens�o do mRNA
-    private boolean disp;
-    private ArrayList<Ribossoma> RibossomasLig; //Lista de ribossomas ligados ao mRNA
+    private int length;
+    private boolean available;
+    private ArrayList<Ribosome> ribosomes;
 
     /**
-     * Contrutor da Classe
+     * Constructor
      */
-    public mRNA(int dg){
-        dim = dg/3;
-        RibossomasLig = new ArrayList<Ribossoma>();
-        disp=true;
+    public mRNA (int dg) {
+        length = dg / 3;
+        ribosomes = new ArrayList<Ribosome>();
+        available =true;
     }
 
-    //----------------------------------------- A��es do mRNA -----------------------------------------//
-
-    //Ligar mRNA-Ribossoma
-    public void LigarRib(Ribossoma rib){
-        RibossomasLig.add(0,rib);
-        disp=false;
-        //return true;
-
+    // connect mRNA-Ribosome
+    public void connectRib (Ribosome rib) {
+        ribosomes.add(0,rib);
+        available = false;
     }
 
-    // Desigar mRNA-/-Ribossoma
-    public void DesligarRib(Ribossoma rib){ //Recebe o ribossoma a desligar
-        RibossomasLig.remove(rib);
+    // disconnect mRNA-/-Ribosome
+    public void disconnectRib (Ribosome rib){ //Recebe o ribossoma a desligar
+        ribosomes.remove(rib);
     }
 
-    //-----------------------------------------Getters and Setters-----------------------------------------//
-    public int getDim() {
-        return dim;
+    // Getters & Setters
+    public int getLength() {
+        return length;
     }
 
-    public void setDim(int dim) {
-        this.dim = dim;
+    public void setLength(int length) {
+        this.length = length;
     }
 
-    public ArrayList<Ribossoma> getRibossomasLig() {
-        return RibossomasLig;
+    public ArrayList<Ribosome> getRibosomes() {
+        return ribosomes;
     }
 
-    public void setRibossomasLig(ArrayList<Ribossoma> ribossomasLig) {
-        RibossomasLig = ribossomasLig;
+    public void setRibosomes(ArrayList<Ribosome> ribosomes) {
+        this.ribosomes = ribosomes;
     }
 
-    public boolean isDisp() {
-        return disp;
+    public boolean isAvailable() {
+        return available;
     }
 
-    public void setDisp(boolean disp) {
-        this.disp = disp;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
-    //----------------------------------------- Override -----------------------------------------//
+    // Override
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((RibossomasLig == null) ? 0 : RibossomasLig.hashCode());
-        result = prime * result + dim;
+                + ((ribosomes == null) ? 0 : ribosomes.hashCode());
+        result = prime * result + length;
         return result;
     }
 
@@ -79,12 +75,12 @@ public class mRNA {
         if (getClass() != obj.getClass())
             return false;
         mRNA other = (mRNA) obj;
-        if (RibossomasLig == null) {
-            if (other.RibossomasLig != null)
+        if (ribosomes == null) {
+            if (other.ribosomes != null)
                 return false;
-        } else if (!RibossomasLig.equals(other.RibossomasLig))
+        } else if (!ribosomes.equals(other.ribosomes))
             return false;
-        if (dim != other.dim)
+        if (length != other.length)
             return false;
         return true;
     }

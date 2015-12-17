@@ -9,52 +9,53 @@ public class premRNA {
     private int splSitesA;
     private int splSitesD;
     private boolean citosol;
-    private boolean spliceosoma;
-    private Spliceosoma spl;
+    private boolean spliceosome;
+    private Spliceosome spl;
     private boolean rnaP;
 
     /**
      * Construtor da Classe
-     * @param spliceSitesTT nr de locais de spl total
-     * @param splSitesA nr de locais de splice disponiveis
-     * @param splSitesD nr de locais de splice efectuados
+     * @param spliceSitesTT total number of splicing sites
+     * @param splSitesA available splicing sites
+     * @param splSitesD done splicing sites
      */
-    public premRNA(int spliceSitesTT,int splSitesA, int splSitesD){
+    public premRNA(int spliceSitesTT,int splSitesA, int splSitesD) {
         this.splSitesTT = spliceSitesTT;
         this.splSitesA = splSitesA;
         this.splSitesD = splSitesD;
         citosol = false;
-        spliceosoma = false;
+        spliceosome = false;
         spl = null;
         rnaP = true;
     }
 
-    //Ligar
-    public void ligarSpl(Spliceosoma s){ //Junto com o Spliceosoma
-        spliceosoma = true;
+    // Connect
+    public void connectSpliceosome (Spliceosome s) { // Together with the Slpiceosome
+        citosol = true;
+        spliceosome = true;
         spl = s;
     }
 
-    //Splicing
-    public boolean splicing(){ //
-        if(splSitesD<splSitesTT){
+    //splice
+    public boolean splicing () {
+        if (splSitesD < splSitesTT) {
             splSitesD += 1;
             splSitesA -= 1;
         }
-        if(splSitesD==splSitesTT){
+        if (splSitesD == splSitesTT) {
             return true;
         }
         return false;
     }
 
-    //Transporte
-    public void transporte(){ // Junto com Slpiceosoma
+    // Transport
+    public void transporte () { // Together with the Slpiceosome
         citosol = true;
-        spliceosoma = false;
+        spliceosome = false;
         spl = null;
     }
 
-    //Getters and Setters
+    // Getters & Setters
     public int getSplSitesTT() {
         return splSitesTT;
     }
@@ -83,19 +84,19 @@ public class premRNA {
         this.citosol = citosol;
     }
 
-    public boolean isSpliceosoma() {
-        return spliceosoma;
+    public boolean isSpliceosome() {
+        return spliceosome;
     }
 
-    public void setSpliceosoma(boolean spliceosoma) {
-        this.spliceosoma = spliceosoma;
+    public void setSpliceosome(boolean spliceosome) {
+        this.spliceosome = spliceosome;
     }
 
-    public Spliceosoma getSpl() {
+    public Spliceosome getSpl() {
         return spl;
     }
 
-    public void setSpl(Spliceosoma spl) {
+    public void setSpl(Spliceosome spl) {
         this.spl = spl;
     }
 
@@ -107,7 +108,7 @@ public class premRNA {
         this.rnaP = rnaP;
     }
 
-    //----------------------------------------- Override -----------------------------------------//
+    // Override
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -116,7 +117,7 @@ public class premRNA {
         result = prime * result + splSitesA;
         result = prime * result + splSitesD;
         result = prime * result + splSitesTT;
-        result = prime * result + (spliceosoma ? 1231 : 1237);
+        result = prime * result + (spliceosome ? 1231 : 1237);
         return result;
     }
 
@@ -140,7 +141,7 @@ public class premRNA {
             return false;
         if (splSitesTT != other.splSitesTT)
             return false;
-        if (spliceosoma != other.spliceosoma)
+        if (spliceosome != other.spliceosome)
             return false;
         return true;
     }

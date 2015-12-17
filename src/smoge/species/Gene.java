@@ -7,26 +7,26 @@ import java.util.ArrayList;
  */
 public class Gene {
 
-    private boolean promotorDisp;
-    private int dimGene;
-    private ArrayList<RNApol> RNApolLigados;
+    private boolean availablePromotor;
+    private int geneLength;
+    private ArrayList<RNApol> connectedRNApol;
 
-    public Gene(int dimGene){
-        promotorDisp = true;//Qd criado um gene tem sempre o promotor disponivel
-        this.dimGene = dimGene;//Nr de pb do gene
-        RNApolLigados = new ArrayList<RNApol>();//Lista onde serao adicionadas todas as RNApol ligadas ao gene
+    public Gene (int geneLength) {
+        availablePromotor = true; //Qd criado um gene tem sempre o promotor disponivel
+        this.geneLength = geneLength; //Nr de pb do gene
+        connectedRNApol = new ArrayList<RNApol>(); //Lista onde serao adicionadas todas as RNApol ligadas ao gene
     }
 
     //Verifica disponibilidade do promotor
 	/*public boolean isAvaiable(){
-		if (!promotorDisp)//Se o promotor estiver ocupado, devolve false
+		if (!availablePromotor)//Se o promotor estiver ocupado, devolve false
 			return false;
-		if (RNApolLigados.isEmpty())//Se a lista estiver vazia e o promotor disponivel, devolve true
+		if (connectedRNApol.isEmpty())//Se a lista estiver vazia e o promotor disponivel, devolve true
 			return true;
 		//Se a lista tiver pelo menos um elemento
 		//Verifica se a ultima RNApol adicionada ja avancou o suf
-		if(RNApolLigados.get(0).getPosRNApol()-((RNApolLigados.get(0).getDimRNApol()/2)+1)>
-			(RNApolLigados.get(0).getDimRNApol()/2)){
+		if(connectedRNApol.get(0).getRNApolPosition()-((connectedRNApol.get(0).getRNApolDimension()/2)+1)>
+			(connectedRNApol.get(0).getRNApolDimension()/2)){
 				return true;
 		}
 		return false;
@@ -37,38 +37,38 @@ public class Gene {
      * @param rna
      * @requires this.isAvaiable()==true
      */
-    public void LigarRNA(RNApol rna){//Ligar
-        RNApolLigados.add(0, rna);//Adiciona a rna na 1a posicao
-        promotorDisp=false;//Passa promotor a ocupado
+    public void LigarRNA (RNApol rna) {
+        connectedRNApol.add(0, rna); //Adiciona a rna na 1a posicao
+        availablePromotor =false; //Passa promotor a ocupado
     }
 
-    //Desligar
-    public void DesligarRNA(RNApol rna){
-        if(RNApolLigados.get(0).equals(rna)){
-            this.promotorDisp = true;
+    //disconnect
+    public void Disconnect (RNApol rna) {
+        if (connectedRNApol.get(0).equals(rna)) {
+            this.availablePromotor = true;
         }
-        RNApolLigados.remove(rna);
+        connectedRNApol.remove(rna);
     }
 
-    //Setters and Getters
-    public void setPromotorDisp(boolean promotorDisp){
-        this.promotorDisp=promotorDisp;
+    // Setters & Getters
+    public void setAvailablePromotor(boolean availablePromotor){
+        this.availablePromotor = availablePromotor;
     }
 
-    public boolean getPromotorDisp(){
-        return promotorDisp;
+    public boolean getAvailablePromotor(){
+        return availablePromotor;
     }
 
-    public int getDimGene(){
-        return dimGene;
+    public int getGeneLength(){
+        return geneLength;
     }
 
-    public ArrayList<RNApol> getRNApolLigados() {
-        return RNApolLigados;
+    public ArrayList<RNApol> getConnectedRNApol() {
+        return connectedRNApol;
     }
 
-    public void setRNApolLigados(ArrayList<RNApol> rNApolLigados) {
-        RNApolLigados = rNApolLigados;
+    public void setConnectedRNApol(ArrayList<RNApol> rNApolLigados) {
+        connectedRNApol = rNApolLigados;
     }
 
     @Override
@@ -76,9 +76,9 @@ public class Gene {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((RNApolLigados == null) ? 0 : RNApolLigados.hashCode());
-        result = prime * result + dimGene;
-        result = prime * result + (promotorDisp ? 1231 : 1237);
+                + ((connectedRNApol == null) ? 0 : connectedRNApol.hashCode());
+        result = prime * result + geneLength;
+        result = prime * result + (availablePromotor ? 1231 : 1237);
         return result;
     }
 
@@ -91,14 +91,14 @@ public class Gene {
         if (getClass() != obj.getClass())
             return false;
         Gene other = (Gene) obj;
-        if (RNApolLigados == null) {
-            if (other.RNApolLigados != null)
+        if (connectedRNApol == null) {
+            if (other.connectedRNApol != null)
                 return false;
-        } else if (!RNApolLigados.equals(other.RNApolLigados))
+        } else if (!connectedRNApol.equals(other.connectedRNApol))
             return false;
-        if (dimGene != other.dimGene)
+        if (geneLength != other.geneLength)
             return false;
-        if (promotorDisp != other.promotorDisp)
+        if (availablePromotor != other.availablePromotor)
             return false;
         return true;
     }

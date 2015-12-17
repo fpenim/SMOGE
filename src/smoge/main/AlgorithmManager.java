@@ -1,26 +1,23 @@
 package smoge.main;
 
-import smoge.species.Gene;
-import smoge.species.RNApol;
-import smoge.species.Ribossoma;
-import smoge.species.Spliceosoma;
+import smoge.species.*;
 
 import java.util.Random;
 
 /**
  * Created by fpenim on 12/12/2015.
  */
-public class Relogio {
-    private int tempo;
+public class AlgorithmManager {
+    private int time;
     private int pmRNA;
     private int mRNA;
     private int prot;
 
     /**
-     * Construtor da Classe
+     * Constructor
      */
-    public Relogio(){
-        tempo = 0;
+    public AlgorithmManager(){
+        time = 0;
         pmRNA = 0;
         mRNA = 0;
         prot = 0;
@@ -28,8 +25,8 @@ public class Relogio {
 
     //------------------------------------------------------------------------------------------------//
 
-    //C�lculo das probabilidades Comulativas (RNApol/Spliceosoma/Ribossoma)
-    public static double[] CalcProb(RNApol[] rna, Spliceosoma[] spl, Ribossoma[] rib){
+    //C�lculo das probabilidades Comulativas (RNApol/Spliceosome/Ribosome)
+    public static double[] CalcProb(RNApol[] rna, Spliceosome[] spl, Ribosome[] rib){
         double[] ProbArray = new double[3]; //Array das probabilidades
 
         //Soma dos k das RNApol
@@ -56,7 +53,7 @@ public class Relogio {
         return ProbArray;
     }
 
-    public static double Somatorio(RNApol[] rna, Spliceosoma[] spl, Ribossoma[] rib){
+    public static double Somatorio(RNApol[] rna, Spliceosome[] spl, Ribosome[] rib){
         double sm = 0.0;
         for(int i=0; i<rna.length; i++)
             sm+=rna[i].sum();
@@ -79,26 +76,26 @@ public class Relogio {
      * @param s    Nr de locais de splicing
      * @return
      */
-    public static double SorteioT(double[] prob, Gene gen, RNApol[] rna, Spliceosoma[] spl, Ribossoma[] rib, int s){
+    public static double SorteioT(double[] prob, Gene gen, RNApol[] rna, Spliceosome[] spl, Ribosome[] rib, int s){
 
         Random r = new Random();
         double rn = r.nextDouble();
 
         double sm = Somatorio(rna, spl, rib);
-        double t = Math.log(1-rn)/(-sm); //Distribui��o Exponencial - tempo
+        double t = Math.log(1-rn)/(-sm); //Distribui��o Exponencial - time
 
         if(rn<=prob[0]){
             //Sorteio RNApol (2)
-            SorteioQ(rna, gen, rna, spl, s, gen.getDimGene());
+            SorteioQ(rna, gen, rna, spl, s, gen.getGeneLength());
             //System.out.println("SorteioT (1)->RNApol \n");
         }else if(rn<=prob[1]){
-            //Sorteio Spliceosoma (2)
-            SorteioQ(spl, gen, rna, spl, s, gen.getDimGene());
-            //System.out.println("SorteioT (1)->Spliceosoma \n");
+            //Sorteio Spliceosome (2)
+            SorteioQ(spl, gen, rna, spl, s, gen.getGeneLength());
+            //System.out.println("SorteioT (1)->Spliceosome \n");
         }else{
-            //Sorteio Ribossoma (2)
-            SorteioQ(rib, gen, rna, spl, s, gen.getDimGene());
-            //System.out.println("SorteioT (1)->Ribossoma \n");
+            //Sorteio Ribosome (2)
+            SorteioQ(rib, gen, rna, spl, s, gen.getGeneLength());
+            //System.out.println("SorteioT (1)->Ribosome \n");
         }
         return t;
     }
@@ -106,13 +103,13 @@ public class Relogio {
     //------------ ---//
     //Sorteio Qual (2)
     //----------------//
-    public static void SorteioQ(Elemento[] ele, Gene gen, RNApol[] rna, Spliceosoma[] spl, int s, int dg){
+    public static void SorteioQ(Element[] ele, Gene gen, RNApol[] rna, Spliceosome[] spl, int s, int dg){
         double[] prob = new double[ele.length]; //Array das probabilidades
         Random r = new Random();
 
         //C�lculo Individual
         for(int i=0; i<ele.length; i++){
-            prob[i]=ele[i].soma();
+            prob[i]=ele[i].sum();
         }
         //C�lculo Cumulativo - Soma cumulativa
         for(int i=1; i<prob.length;i++){
@@ -136,17 +133,17 @@ public class Relogio {
     //----------------//
     //Sorteio Açao (3)
     //----------------//
-    public static void SorteioA(Elemento ele, Gene gen, RNApol[] rna, Spliceosoma[] spl, int s, int dg){
+    public static void SorteioA(Element ele, Gene gen, RNApol[] rna, Spliceosome[] spl, int s, int dg){
         double[] p = new double[4]; //Array das probabildades
         Random r = new Random(); //Objeto aleat�rio
 
         //Preenchimento do array das probabilidades
         if(ele instanceof RNApol){ //Se sorteada RNApol
             double aux = ((RNApol) ele).sum();
-            p[0]=((RNApol) ele).getKl()/aux; //Ligar
-            p[1]=(((RNApol) ele).getKl()+((RNApol) ele).getKa())/aux; //Avan�ar
-            p[2]=(((RNApol) ele).getKl()+((RNApol) ele).getKa()+((RNApol) ele).getKd())/aux; //Desligar
-            p[3]=(((RNApol) ele).getKl()+((RNApol) ele).getKa()+((RNApol) ele).getKd()+((RNApol) ele).getKdg())/aux; //Degradar
+            p[0]=((RNApol) ele).getKc()/aux; //connect
+            p[1]=(((RNApol) ele).getKc()+((RNApol) ele).getKp())/aux; //progress�ar
+            p[2]=(((RNApol) ele).getKc()+((RNApol) ele).getKp()+((RNApol) ele).getKd())/aux; //disconnect
+            p[3]=(((RNApol) ele).getKc()+((RNApol) ele).getKp()+((RNApol) ele).getKd()+((RNApol) ele).getKdg())/aux; //Degradar
             //Sorteio (3.1)
             double rn = r.nextDouble();
 			/*System.out.println("Random: "+rn);
@@ -157,25 +154,25 @@ public class Relogio {
             while(rn>p[i]){
                 i++;}
             if(i==0){
-                //System.out.println("SorteioA (3.1)->Ligar");
-                ((RNApol) ele).Ligar(gen, s);
+                //System.out.println("SorteioA (3.1)->connect");
+                ((RNApol) ele).connect(gen, s);
             }else if(i==1){
-                //System.out.println("SorteioA (3.1)->Avan�ar");
-                ((RNApol) ele).Avan(s);
+                //System.out.println("SorteioA (3.1)->progress�ar");
+                ((RNApol) ele).progress(s);
             }else if(i==2){
-                //System.out.println("SorteioA (3.1)->Desligar");
-                ((RNApol) ele).Desligar();
+                //System.out.println("SorteioA (3.1)->disconnect");
+                ((RNApol) ele).Disconnect();
             }else{
                 //System.out.println("SorteioA (3.1)->Degradar pre-mRNA");
-                ((RNApol) ele).degradarPmRNA();
+                ((RNApol) ele).degradePmRNA();
             }
         }
-        else if(ele instanceof Spliceosoma){ //Se sorteado Spliceosoma
-            double aux = ((Spliceosoma) ele).sum();
-            p[0]=((Spliceosoma) ele).getKl()/aux; //Ligar
-            p[1]=(((Spliceosoma) ele).getKl()+((Spliceosoma) ele).getKs())/aux; //Splicing
-            p[2]=(((Spliceosoma) ele).getKl()+((Spliceosoma) ele).getKs()+((Spliceosoma) ele).getKt())/aux; //Transporte
-            p[3]=(((Spliceosoma) ele).getKl()+((Spliceosoma) ele).getKs()+((Spliceosoma) ele).getKt()+((Spliceosoma) ele).getKd())/aux;
+        else if(ele instanceof Spliceosome){ //Se sorteado Spliceosome
+            double aux = ((Spliceosome) ele).sum();
+            p[0]=((Spliceosome) ele).getKc()/aux; //connect
+            p[1]=(((Spliceosome) ele).getKc()+((Spliceosome) ele).getKs())/aux; //splice
+            p[2]=(((Spliceosome) ele).getKc()+((Spliceosome) ele).getKs()+((Spliceosome) ele).getKt())/aux; //Transporte
+            p[3]=(((Spliceosome) ele).getKc()+((Spliceosome) ele).getKs()+((Spliceosome) ele).getKt()+((Spliceosome) ele).getKdg())/aux;
             //Sorteio (3.2)
             double rn = r.nextDouble();
 			/*System.out.println("Random: "+rn);
@@ -185,30 +182,30 @@ public class Relogio {
             int i = 0;
             while(rn>p[i]){
                 i++;}
-            if(i==0){ //Ligar
-                //System.out.println("SorteioA (3.2)->Ligar");
+            if(i==0){ //connect
+                //System.out.println("SorteioA (3.2)->connect");
                 for(int a=0; a<rna.length; a++){
                     for(int b=rna[a].getPmRNA().size()-1; b>-1; b--){
-                        ((Spliceosoma)ele).ligar(rna[a].getPmRNA().get(b));
+                        ((Spliceosome)ele).connect(rna[a].getPmRNA().get(b));
                     }
                 }
-            }else if(i==1){ //Splicing
-                //System.out.println("SorteioA (3.2)->Splicing");
-                ((Spliceosoma)ele).Splicing();
+            }else if(i==1){ //splice
+                //System.out.println("SorteioA (3.2)->splice");
+                ((Spliceosome)ele).splice();
             }else if(i==2){ //Transporte
                 //System.out.println("SorteioA (3.2)->Transporte");
-                ((Spliceosoma) ele).transportar(dg);
+                ((Spliceosome) ele).transport(dg);
             }else{
                 //System.out.println("SorteioA (3.2)->Degradar mRNA");
-                ((Spliceosoma) ele).degradarmRNA();
+                ((Spliceosome) ele).degrademRNA();
             }
         }
-        else{ //Se sorteado Ribossoma
-            double aux = ((Ribossoma) ele).sum();
-            p[0]=((Ribossoma)ele).getKl()/aux; //Ligar
-            p[1]=(((Ribossoma)ele).getKl()+((Ribossoma)ele).getKa())/aux; //Avan�ar
-            p[2]=(((Ribossoma)ele).getKl()+((Ribossoma)ele).getKa()+((Ribossoma)ele).getKd())/aux; //Desligar
-            p[3]=(((Ribossoma)ele).getKl()+((Ribossoma)ele).getKa()+((Ribossoma)ele).getKd()+((Ribossoma)ele).getKdg())/aux; //Degradar Prote�na
+        else{ //Se sorteado Ribosome
+            double aux = ((Ribosome) ele).sum();
+            p[0]=((Ribosome)ele).getKc()/aux; //connect
+            p[1]=(((Ribosome)ele).getKc()+((Ribosome)ele).getKp())/aux; //progress�ar
+            p[2]=(((Ribosome)ele).getKc()+((Ribosome)ele).getKp()+((Ribosome)ele).getKd())/aux; //disconnect
+            p[3]=(((Ribosome)ele).getKc()+((Ribosome)ele).getKp()+((Ribosome)ele).getKd()+((Ribosome)ele).getKdg())/aux; //Degradar Prote�na
             //Sorteio (3.3)
             double rr = r.nextDouble();
 			/*System.out.println("Random: "+rr);
@@ -218,34 +215,34 @@ public class Relogio {
             int i = 0;
             while(rr>p[i]){
                 i++;}
-            if(i==0){ //Ligar
-                //System.out.println("SorteioA (3.3)->Ligar");
+            if(i==0){ //connect
+                //System.out.println("SorteioA (3.3)->connect");
                 for(int a=0;a<spl.length;a++){
                     for(int b=spl[a].getArrayM().size()-1; b>-1; b--){
-                        ((Ribossoma)ele).Ligar(spl[a].getArrayM().get(b));
+                        ((Ribosome)ele).connect(spl[a].getArrayM().get(b));
                     }
                 }
-            }else if(i==1){ //Avan�ar
-                //System.out.println("SorteioA (3.3)->Avan�ar");
-                ((Ribossoma)ele).Avan();
+            }else if(i==1){ //progress�ar
+                //System.out.println("SorteioA (3.3)->progress�ar");
+                ((Ribosome)ele).progress();
             }else if(i==2){
-                //System.out.println("SorteioA (3.3)->Desligar");
-                ((Ribossoma)ele).Desligar();
+                //System.out.println("SorteioA (3.3)->disconnect");
+                ((Ribosome)ele).disconnect();
             }else{
                 //System.out.println("SorteioA (3.3)->Degradar Prote�na");
-                ((Ribossoma)ele).degradarProt();
+                ((Ribosome)ele).degradeProtein();
             }
         }
     }
 
     //-----------------------------------------Getters & Setters-----------------------------------------//
 
-    public int getTempo() {
-        return tempo;
+    public int getTime() {
+        return time;
     }
 
-    public void setTempo(int tempo) {
-        this.tempo = tempo;
+    public void setTime(int time) {
+        this.time = time;
     }
 
     public int getPmRNA() {
