@@ -14,3 +14,6 @@ weaknesses, approaches, languages and algorithms used.
 Here we present a model developed in Java, which is an object-oriented
 language or object-oriented programming (OOP) implementing the Gillespie’s
 algorithm.
+
+This project was developed during my Master Thesis work in Bioinformatics at Univesity of Lisbon and the dissertation ca be found here:
+http://repositorio.ul.pt/handle/10451/15849
