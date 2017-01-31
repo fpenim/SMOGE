@@ -12,8 +12,7 @@ performed looking for already described similar models, identifying their streng
 weaknesses, approaches, languages and algorithms used.
 
 Here we present a model developed in Java, which is an object-oriented
-language or object-oriented programming (OOP) implementing the Gillespie’s
-algorithm.
+language or object-oriented programming (OOP) implementing the [Gillespie’s
+algorithm](http://www.sciencedirect.com/science/article/pii/0021999176900413).
 
-This project was developed during my Master Thesis work in Bioinformatics at Univesity of Lisbon and the dissertation ca be found here:
-http://repositorio.ul.pt/handle/10451/15849
+This project was developed during my Master Thesis work in Bioinformatics at Univesity of Lisbon and the dissertation ca be found [here](http://hdl.handle.net/10451/15849).
