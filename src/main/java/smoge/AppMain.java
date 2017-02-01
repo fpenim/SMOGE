@@ -1,5 +1,6 @@
-package main.java.smoge.main;
+package main.java.smoge;
 
+import main.java.smoge.main.AlgorithmManager;
 import main.java.smoge.species.Gene;
 import main.java.smoge.species.RNApol;
 import main.java.smoge.species.Ribosome;
@@ -42,7 +43,7 @@ public class AppMain {
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
-            log.info("Application terminated, elapsed time: " + timer.getElapsedTime());
+            log.info("An error occurred while initializing arrays, elapsed time: " + timer.getElapsedTime());
             System.exit(1);
         }
 
@@ -55,8 +56,8 @@ public class AppMain {
             double tempo = 0.0;
             while(tempo < Double.parseDouble(args[0])){
 
-                double[] ProbArray = AlgorithmManager.CalcProb(polimerases, spliceosomes, ribosomes);                                    // Probabilities calculus
-                double t = AlgorithmManager.SorteioT(ProbArray, gene, polimerases, spliceosomes, ribosomes, Integer.parseInt(args[6])); // Algorithm execution
+                double[] ProbArray = AlgorithmManager.calculateProbabilities(polimerases, spliceosomes, ribosomes);                                   // Probabilities calculus
+                double t = AlgorithmManager.firstRaffle(ProbArray, gene, polimerases, spliceosomes, ribosomes, Integer.parseInt(args[6])); // Algorithm execution
 
                 if(i % (Integer.parseInt(args[1])) == 0) { // Values output
                     int cp = 0;
@@ -76,7 +77,6 @@ public class AppMain {
                     out.newLine();
                     out.flush();
                 }
-
                 tempo += t;
                 i++;
             }
