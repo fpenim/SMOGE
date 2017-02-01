@@ -1,29 +1,21 @@
-package smoge.main;
+package main.java.smoge.main;
 
-import smoge.species.*;
+import main.java.smoge.species.*;
 
 import java.util.Random;
 
-/**
- * Created by fpenim on 12/12/2015.
- */
 public class AlgorithmManager {
     private int time;
     private int pmRNA;
     private int mRNA;
     private int prot;
 
-    /**
-     * Constructor
-     */
     public AlgorithmManager(){
         time = 0;
         pmRNA = 0;
         mRNA = 0;
         prot = 0;
     }
-
-    //------------------------------------------------------------------------------------------------//
 
     //C�lculo das probabilidades Comulativas (RNApol/Spliceosome/Ribosome)
     public static double[] CalcProb(RNApol[] rna, Spliceosome[] spl, Ribosome[] rib){

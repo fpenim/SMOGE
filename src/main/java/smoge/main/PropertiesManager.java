@@ -1,6 +1,4 @@
-package smoge.main;
-
-import com.sun.tools.internal.ws.util.ClassNameInfo;
+package main.java.smoge.main;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,9 +7,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by fpenim on 17/12/2015.
- */
 public class PropertiesManager {
     private static final Logger log = Logger.getLogger(PropertiesManager.class.getName());
 

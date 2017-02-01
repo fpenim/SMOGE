@@ -1,4 +1,4 @@
-package smoge.species;
+package main.java.smoge.species;
 
 /**
  * Created by fpenim on 12/12/2015.

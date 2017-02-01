@@ -1,4 +1,4 @@
-package smoge.species;
+package main.java.smoge.species;
 
 import java.util.ArrayList;
 
