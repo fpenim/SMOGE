@@ -2,5 +2,6 @@
 *.iml
 .idea/
 .gradle/
+build/
 SMOGE.ipr
 SMOGE.iws

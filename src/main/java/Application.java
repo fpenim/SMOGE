@@ -13,8 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class AppMain {
-    private static final Logger log = Logger.getLogger(AppMain.class.getName()); //FIXME - fix logging
+public class Application {
+    private static final Logger log = Logger.getLogger(Application.class.getName()); //FIXME - fix logging
 
     public static void main ( String[] args ) {
         Timer timer = new Timer();
