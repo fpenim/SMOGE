@@ -2,7 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName= 'smoge.Application'
+mainClassName= 'smoge.SmogeApplication'
 
 jar {
     baseName = 'smoge'
@@ -11,3 +11,11 @@ jar {
 
 sourceCompatibility=1.8
 targetCompatibility=1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+}

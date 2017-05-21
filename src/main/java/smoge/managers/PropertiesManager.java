@@ -1,34 +1,25 @@
 package smoge.managers;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class PropertiesManager {
-    private static final Logger log = Logger.getLogger(PropertiesManager.class.getName());
+    public static final Logger log = Logger.getLogger(PropertiesManager.class);
 
     private static PropertiesManager propertiesManager = null;
     private Properties properties = null;
 
     private PropertiesManager () {
         properties = new Properties();
-        FileInputStream file;
+        InputStream inputStream = this.getClass().getResourceAsStream("/application.properties");
 
-        String filePath = "/Users/flaviapenim/IdeaProjects/SMOGE/src/main/resources/application.properties";
         try {
-            file = new FileInputStream(filePath);
-            properties.load(file);
-            file.close();
-
-        } catch (FileNotFoundException e) {
-            log.log(Level.SEVERE, "Properties file not found: ", e);
-            System.exit(0);
+            properties.load(inputStream);
         } catch (IOException e) {
-            log.log(Level.SEVERE, "Error reading propertiesManager file: ", e);
-            System.exit(0);
+            e.printStackTrace();
         }
     }
 
@@ -39,24 +30,80 @@ public class PropertiesManager {
         return propertiesManager;
     }
 
+    /**
+     * General properties
+     */
     public int getGeneLength() {
-        String s = this.properties.getProperty("geneLength","1500");
-        return Integer.parseInt(s);
+        return Integer.parseInt(this.properties.getProperty("geneLength","1500"));
     }
 
     public int getRnaPolNumber() {
-        String s = this.properties.getProperty("rnaPolNumber","100");
-        return Integer.parseInt(s);
+        return Integer.parseInt(this.properties.getProperty("rnaPolNumber","100"));
     }
 
     public int getSpliceosomeNumber() {
-        String s = this.properties.getProperty("spliceosomeNumber","100");
-        return Integer.parseInt(s);
+        return Integer.parseInt(this.properties.getProperty("spliceosomeNumber","100"));
     }
 
     public int getRibosomeNumber() {
-        String s = this.properties.getProperty("ribosomeNumber","100");
-        return Integer.parseInt(s);
+        return Integer.parseInt(this.properties.getProperty("ribosomeNumber","100"));
+    }
+
+    /**
+     * RNA Polymerase related properties
+     */
+    public double getPolymeraseKc() {
+        return Double.parseDouble(this.properties.getProperty("polKc", "2"));
+    }
+
+    public double getPolymeraseKp() {
+        return Double.parseDouble(this.properties.getProperty("polKp", "2"));
+    }
+
+    public double getPolymeraseKd() {
+        return Double.parseDouble(this.properties.getProperty("polKd", "2"));
+    }
+
+    public double getPolymeraseKdg() {
+        return Double.parseDouble(this.properties.getProperty("polKdg", "2"));
+    }
+
+    /**
+     * Spliceosome related properties
+     */
+    public double getSpliceosomeKc() {
+        return Double.parseDouble(this.properties.getProperty("splKc", "0.5"));
+    }
+
+    public double getSpliceosomeKs() {
+        return Double.parseDouble(this.properties.getProperty("splKs", "0.5"));
+    }
+
+    public double getSpliceosomeKt() {
+        return Double.parseDouble(this.properties.getProperty("splKt", "0.5"));
+    }
+
+    public double getSpliceosomeKdg() {
+        return Double.parseDouble(this.properties.getProperty("splKdg", "0.5"));
+    }
+
+    /**
+     * Ribosome related properties
+     */
+    public double getRibosomeKc() {
+        return Double.parseDouble(this.properties.getProperty("ribKc", "1.5"));
+    }
+
+    public double getRibosomeKp() {
+        return Double.parseDouble(this.properties.getProperty("ribKp", "1.5"));
+    }
+
+    public double getRibosomeKd() {
+        return Double.parseDouble(this.properties.getProperty("ribKd", "1.5"));
+    }
+
+    public double getRibosomeKdg() {
+        return Double.parseDouble(this.properties.getProperty("ribKdg", "1.5"));
     }
 
     @Override
