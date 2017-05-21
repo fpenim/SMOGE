@@ -1,6 +1,10 @@
-package main.java.smoge.main;
+package smoge.managers;
 
-import main.java.smoge.species.*;
+import smoge.species.Element;
+import smoge.species.Gene;
+import smoge.species.RNApolymerase;
+import smoge.species.Ribosome;
+import smoge.species.Spliceosome;
 
 import java.util.Random;
 
@@ -17,7 +21,7 @@ public class AlgorithmManager {
         prot = 0;
     }
 
-    public static double[] calculateProbabilities(RNApol[] polimerases, Spliceosome[] spliceosomes, Ribosome[] ribosomes) {
+    public static double[] calculateProbabilities(RNApolymerase[] polimerases, Spliceosome[] spliceosomes, Ribosome[] ribosomes) {
         double[] probabilitiesArray = new double[3];
 
         // sum of k - RNApolimerases
@@ -45,7 +49,7 @@ public class AlgorithmManager {
         return probabilitiesArray;
     }
 
-    public static double sum(RNApol[] rna, Spliceosome[] spl, Ribosome[] rib){
+    public static double sum(RNApolymerase[] rna, Spliceosome[] spl, Ribosome[] rib){
         double sm = 0.0;
 
         for(int i = 0; i < rna.length; i++) {
@@ -60,7 +64,7 @@ public class AlgorithmManager {
         return sm;
     }
 
-    public static double firstRaffle(double[] prob, Gene gene, RNApol[] rna, Spliceosome[] spl, Ribosome[] rib, int s) { // Raffle between: RNApolimerase, Spliceosome or Ribosome
+    public static double firstRaffle(double[] prob, Gene gene, RNApolymerase[] rna, Spliceosome[] spl, Ribosome[] rib, int s) { // Raffle between: RNApolimerase, Spliceosome or Ribosome
         Random pseudoRandom = new Random();
         double randomDouble = pseudoRandom.nextDouble();
 
@@ -79,7 +83,7 @@ public class AlgorithmManager {
         return time;
     }
 
-    public static void secondRaffle(Element[] ele, Gene gene, RNApol[] rna, Spliceosome[] spl, int s, int dg) { // Given the result of the firstRaffle, raffle the specific element
+    public static void secondRaffle(Element[] ele, Gene gene, RNApolymerase[] rna, Spliceosome[] spl, int s, int dg) { // Given the result of the firstRaffle, raffle the specific element
         double[] prob = new double[ele.length]; // Probabilities array
 
         for(int i = 0; i < ele.length; i++) { // Individual probability
@@ -104,12 +108,12 @@ public class AlgorithmManager {
         thirdRaffle(ele[i], gene, rna, spl, s, dg);
     }
 
-    public static void thirdRaffle(Element element, Gene gene, RNApol[] rna, Spliceosome[] spl, int s, int dg) { // Raffle the action
+    public static void thirdRaffle(Element element, Gene gene, RNApolymerase[] rna, Spliceosome[] spl, int s, int dg) { // Raffle the action
         double[] probabilities = new double[4]; // Probabilities array
         Random pseudoRandom = new Random();
 
-        if(element instanceof RNApol) {
-            polimeraseActionRaffle((RNApol) element, gene, s, probabilities, pseudoRandom);
+        if(element instanceof RNApolymerase) {
+            polimeraseActionRaffle((RNApolymerase) element, gene, s, probabilities, pseudoRandom);
         }
         else if(element instanceof Spliceosome) {
             spliceosomeActionRaffle((Spliceosome) element, rna, dg, probabilities, pseudoRandom);
@@ -119,7 +123,7 @@ public class AlgorithmManager {
         }
     }
 
-    private static void polimeraseActionRaffle(RNApol element, Gene gene, int s, double[] probabilities, Random pseudoRandom) {
+    private static void polimeraseActionRaffle(RNApolymerase element, Gene gene, int s, double[] probabilities, Random pseudoRandom) {
         double aux = element.sum();
         probabilities[0] = element.getKc() / aux;                                                           // Connect
         probabilities[1] = (element.getKc() + element.getKp()) / aux;                                       // Slide
@@ -140,7 +144,7 @@ public class AlgorithmManager {
         }
     }
 
-    private static void spliceosomeActionRaffle(Spliceosome element, RNApol[] rna, int dg, double[] probabilities, Random pseudoRandom) {
+    private static void spliceosomeActionRaffle(Spliceosome element, RNApolymerase[] rna, int dg, double[] probabilities, Random pseudoRandom) {
         double aux = element.sum();
         probabilities[0]= element.getKc() / aux;                                                          // Connect
         probabilities[1]= (element.getKc() + element.getKs()) / aux;                                      // Splice

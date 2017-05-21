@@ -1,11 +1,11 @@
-package main.java.smoge.species;
+package smoge.species;
 
 import java.util.ArrayList;
 
 /**
  * Created by fpenim on 12/12/2015.
  */
-public class mRNA {
+public class MessengerRNA {
     private int length;
     private boolean available;
     private ArrayList<Ribosome> ribosomes;
@@ -13,19 +13,19 @@ public class mRNA {
     /**
      * Constructor
      */
-    public mRNA (int dg) {
+    public MessengerRNA(int dg) {
         length = dg / 3;
         ribosomes = new ArrayList<Ribosome>();
         available =true;
     }
 
-    // connect mRNA-Ribosome
+    // connect MessengerRNA-Ribosome
     public void connectRib (Ribosome rib) {
         ribosomes.add(0,rib);
         available = false;
     }
 
-    // disconnect mRNA-/-Ribosome
+    // disconnect MessengerRNA-/-Ribosome
     public void disconnectRib (Ribosome rib){ //Recebe o ribossoma a desligar
         ribosomes.remove(rib);
     }
@@ -74,7 +74,7 @@ public class mRNA {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        mRNA other = (mRNA) obj;
+        MessengerRNA other = (MessengerRNA) obj;
         if (ribosomes == null) {
             if (other.ribosomes != null)
                 return false;

@@ -1,13 +1,16 @@
-package main.java.smoge;
+import smoge.managers.AlgorithmManager;
+import smoge.managers.PropertiesManager;
+import smoge.species.Gene;
+import smoge.species.RNApolymerase;
+import smoge.species.Ribosome;
+import smoge.species.Spliceosome;
+import smoge.utils.Timer;
 
-import main.java.smoge.main.AlgorithmManager;
-import main.java.smoge.species.Gene;
-import main.java.smoge.species.RNApol;
-import main.java.smoge.species.Ribosome;
-import main.java.smoge.species.Spliceosome;
-import main.java.smoge.utils.Timer;
-
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class AppMain {
@@ -17,21 +20,23 @@ public class AppMain {
         Timer timer = new Timer();
         log.info("Starting application...");
 
+        PropertiesManager propertiesManager = PropertiesManager.getInstance();
+
         Gene gene = null;
-        RNApol[] polimerases = null;
+        RNApolymerase[] polimerases = null;
         Spliceosome[] spliceosomes = null;
         Ribosome[] ribosomes = null;
 
         try {
-            gene = new Gene(Integer.parseInt(args[2]));                  // Creating Gene
-            polimerases = new RNApol[Integer.parseInt(args[3])];         // Creating RNApol array
-            spliceosomes = new Spliceosome[Integer.parseInt(args[4])];   // Creating Splicesomes array
-            ribosomes = new Ribosome[Integer.parseInt(args[5])];         // Creating Ribosomes array
+            gene = new Gene(propertiesManager.getGeneLength());                         // Creating Gene
+            polimerases = new RNApolymerase[propertiesManager.getRnaPolNumber()];              // Creating RNApolymerase array
+            spliceosomes = new Spliceosome[propertiesManager.getSpliceosomeNumber()];   // Creating Splicesomes array
+            ribosomes = new Ribosome[propertiesManager.getRibosomeNumber()];            // Creating Ribosomes array
             //args[6] = Number of splicing sites
 
             // Fill in arrays
             for (int i = 0; i < polimerases.length; i++) {
-                polimerases[i] = new RNApol(gene, Double.parseDouble(args[7]), Double.parseDouble(args[8]), Double.parseDouble(args[9]), Double.parseDouble(args[10]));
+                polimerases[i] = new RNApolymerase(gene, Double.parseDouble(args[7]), Double.parseDouble(args[8]), Double.parseDouble(args[9]), Double.parseDouble(args[10]));
             }
 
             for (int i = 0; i < spliceosomes.length; i++) {

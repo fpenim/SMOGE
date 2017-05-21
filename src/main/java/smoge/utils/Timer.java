@@ -1,4 +1,4 @@
-package main.java.smoge.utils;
+package smoge.utils;
 
 import java.util.concurrent.TimeUnit;
 
