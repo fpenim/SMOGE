@@ -19,4 +19,4 @@ algorithm](http://www.sciencedirect.com/science/article/pii/0021999176900413).
 This project was developed during my Master Thesis work in Bioinformatics at **Univesity of Lisbon** and the dissertation ca be found [here](http://hdl.handle.net/10451/15849).
 
 ## License
-This project is licensed under //TODO
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE.md) file for details
