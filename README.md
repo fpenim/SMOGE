@@ -1,4 +1,7 @@
 # Stochastic Modelling of Gene Expression
+
+[![Build Status](https://travis-ci.org/fpenim/SMOGE.svg?branch=master)](https://travis-ci.org/fpenim/SMOGE)
+
 ### A Stochastic Model of Gene Expression Including Splicing Events
 
 Proteins carry out the great majority of the catalytic and structural work within
