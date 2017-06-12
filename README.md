@@ -1,5 +1,6 @@
 # Stochastic Modelling of Gene Expression
 ### A Stochastic Model of Gene Expression Including Splicing Events
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bf112378851b4d1187130dad59a7e62c)](https://www.codacy.com/app/fpenim/SMOGE?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fpenim/SMOGE&amp;utm_campaign=Badge_Grade)
 
 Proteins carry out the great majority of the catalytic and structural work within
 an organism. The RNA templates used in their synthesis determines their identity, and
