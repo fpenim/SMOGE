@@ -1,13 +1,10 @@
 package smoge.managers;
 
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesManager {
-    public static final Logger log = Logger.getLogger(PropertiesManager.class);
 
     private static PropertiesManager propertiesManager = null;
     private Properties properties = null;
@@ -33,6 +30,14 @@ public class PropertiesManager {
     /**
      * General properties
      */
+    public long getSimulationTime() {
+        return Long.parseLong(this.properties.getProperty("simulationTime", "1000"));
+    }
+
+    public long getOutputStep() {
+        return Long.parseLong(this.properties.getProperty("outputStep", "10"));
+    }
+
     public int getGeneLength() {
         return Integer.parseInt(this.properties.getProperty("geneLength","1500"));
     }
@@ -47,6 +52,10 @@ public class PropertiesManager {
 
     public int getRibosomeNumber() {
         return Integer.parseInt(this.properties.getProperty("ribosomeNumber","100"));
+    }
+
+    public int getSpliceSitesNumber() {
+        return Integer.parseInt(this.properties.getProperty("splicesSiteNumber", "0"));
     }
 
     /**

@@ -1,13 +1,21 @@
+package smoge;
+
 import org.apache.log4j.Logger;
+import smoge.managers.AlgorithmManager;
 import smoge.managers.PropertiesManager;
 import smoge.species.Gene;
 import smoge.species.RNApolymerase;
 import smoge.species.Ribosome;
 import smoge.species.Spliceosome;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
-public class SmogeApplication {
-    public static final Logger log = Logger.getLogger(SmogeApplication.class);
+public class Smoge {
+    public static final Logger log = Logger.getLogger(Smoge.class);
 
     private static Gene gene = null;
     private static RNApolymerase[] polimerases = null;
@@ -15,19 +23,7 @@ public class SmogeApplication {
     private static Ribosome[] ribosomes = null;
 
 
-    public static void main ( String[] args ) {
-        log.info("Starting application...");
-
-        PropertiesManager propertiesManager = PropertiesManager.getInstance();
-
-        initializeEnvironment(propertiesManager);
-
-        //startSimulation();
-
-        log.info("Application terminated.");
-    }
-
-    private static void initializeEnvironment(PropertiesManager properties) {
+    public static void initializeEnvironment(PropertiesManager properties) {
         log.info("Initializing objects.");
 
         gene = new Gene(properties.getGeneLength());
@@ -68,19 +64,20 @@ public class SmogeApplication {
 
         log.info("All objects were initialized successfully.");
     }
-/*
-    private static void startSimulation() {
-        File file = new File("teste.txt");
-        try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
 
-            int i = 0;
-            double tempo = 0.0;
-            while(tempo < Double.parseDouble(args[0])){
+    public static void startSimulation(PropertiesManager properties) {
 
-                double[] ProbArray = AlgorithmManager.calculateProbabilities(polimerases, spliceosomes, ribosomes);                                   // Probabilities calculus
-                double t = AlgorithmManager.firstRaffle(ProbArray, gene, polimerases, spliceosomes, ribosomes, Integer.parseInt(args[6])); // Algorithm execution
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(new File("output.txt")))) {
 
-                if(i % (Integer.parseInt(args[1])) == 0) { // Values output
+            long i = 0;
+            long time = 0L;
+            while(time < properties.getSimulationTime()) {
+
+                double[] ProbArray = AlgorithmManager.calculateProbabilities(polimerases, spliceosomes, ribosomes); // Probabilities calculus
+
+                double t = AlgorithmManager.firstRaffle(ProbArray, gene, polimerases, spliceosomes, ribosomes, properties.getSpliceSitesNumber());
+
+                if(i % properties.getOutputStep() == 0) { // Print output
                     int cp = 0;
                     for(int j = 0; j < polimerases.length; j++){
                         cp += polimerases[j].getPmRNA().size();
@@ -94,11 +91,11 @@ public class SmogeApplication {
                         c += ribosomes[j].getProtArray().size();
                     }
                     // Writing to file
-                    out.write(tempo+","+cp+","+cm+","+c);
+                    out.write(time + "," + cp + "," + cm + "," + c);
                     out.newLine();
                     out.flush();
                 }
-                tempo += t;
+                time += t;
                 i++;
             }
         }
@@ -111,5 +108,5 @@ public class SmogeApplication {
             System.exit(1);
         }
     }
-*/
+
 }
