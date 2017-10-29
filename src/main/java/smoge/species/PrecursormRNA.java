@@ -3,7 +3,7 @@ package smoge.species;
 /**
  * Created by fpenim on 12/12/2015.
  */
-public class premRNA {
+public class PrecursormRNA {
 
     private int splSitesTT;
     private int splSitesA;
@@ -19,7 +19,7 @@ public class premRNA {
      * @param splSitesA available splicing sites
      * @param splSitesD done splicing sites
      */
-    public premRNA(int spliceSitesTT,int splSitesA, int splSitesD) {
+    public PrecursormRNA(int spliceSitesTT, int splSitesA, int splSitesD) {
         this.splSitesTT = spliceSitesTT;
         this.splSitesA = splSitesA;
         this.splSitesD = splSitesD;
@@ -129,7 +129,7 @@ public class premRNA {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        premRNA other = (premRNA) obj;
+        PrecursormRNA other = (PrecursormRNA) obj;
         if (spl == null) {
             if (other.spl != null)
                 return false;

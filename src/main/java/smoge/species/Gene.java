@@ -9,12 +9,12 @@ public class Gene {
 
     private boolean availablePromotor;
     private int geneLength;
-    private ArrayList<RNApol> connectedRNApol;
+    private ArrayList<RNApolymerase> connectedRNApol;
 
     public Gene (int geneLength) {
         availablePromotor = true; //Qd criado um gene tem sempre o promotor disponivel
         this.geneLength = geneLength; //Nr de pb do gene
-        connectedRNApol = new ArrayList<RNApol>(); //Lista onde serao adicionadas todas as RNApol ligadas ao gene
+        connectedRNApol = new ArrayList<RNApolymerase>(); //Lista onde serao adicionadas todas as RNApolymerase ligadas ao gene
     }
 
     //Verifica disponibilidade do promotor
@@ -24,7 +24,7 @@ public class Gene {
 		if (connectedRNApol.isEmpty())//Se a lista estiver vazia e o promotor disponivel, devolve true
 			return true;
 		//Se a lista tiver pelo menos um elemento
-		//Verifica se a ultima RNApol adicionada ja avancou o suf
+		//Verifica se a ultima RNApolymerase adicionada ja avancou o suf
 		if(connectedRNApol.get(0).getRNApolPosition()-((connectedRNApol.get(0).getRNApolDimension()/2)+1)>
 			(connectedRNApol.get(0).getRNApolDimension()/2)){
 				return true;
@@ -37,13 +37,13 @@ public class Gene {
      * @param rna
      * @requires this.isAvaiable()==true
      */
-    public void LigarRNA (RNApol rna) {
+    public void LigarRNA (RNApolymerase rna) {
         connectedRNApol.add(0, rna); //Adiciona a rna na 1a posicao
         availablePromotor =false; //Passa promotor a ocupado
     }
 
     //disconnect
-    public void Disconnect (RNApol rna) {
+    public void Disconnect (RNApolymerase rna) {
         if (connectedRNApol.get(0).equals(rna)) {
             this.availablePromotor = true;
         }
@@ -63,11 +63,11 @@ public class Gene {
         return geneLength;
     }
 
-    public ArrayList<RNApol> getConnectedRNApol() {
+    public ArrayList<RNApolymerase> getConnectedRNApol() {
         return connectedRNApol;
     }
 
-    public void setConnectedRNApol(ArrayList<RNApol> rNApolLigados) {
+    public void setConnectedRNApol(ArrayList<RNApolymerase> rNApolLigados) {
         connectedRNApol = rNApolLigados;
     }
 

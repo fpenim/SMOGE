@@ -8,32 +8,32 @@ import java.util.ArrayList;
 public class Spliceosome extends Element {
 
     private boolean connected;
-    private premRNA currentP;
-    private ArrayList<mRNA> arrayM;
-    private RNApol[] polRef;
+    private PrecursormRNA currentP;
+    private ArrayList<MessengerRNA> arrayM;
+    private RNApolymerase[] polRef;
 
     // Kinetic constants
     private double kc; // connect
     private double ks; // splice
     private double kt; // Transport -> nuc-cit
-    private double kdg; // mRNA Degradation
+    private double kdg; // MessengerRNA Degradation
 
     /**
      * Constructor
      */
-    public Spliceosome(RNApol[] rna, double kc, double ks, double kt, double kdg){
+    public Spliceosome(RNApolymerase[] rna, double kc, double ks, double kt, double kdg){
         this.kc = kc;
         this.ks = ks;
         this.kt = kt;
         this.kdg = kdg;
         connected = false;
         currentP = null;
-        arrayM = new ArrayList<mRNA>();
+        arrayM = new ArrayList<MessengerRNA>();
         polRef = rna;
     }
 
     //connect
-    public boolean connect(premRNA pmR) {
+    public boolean connect(PrecursormRNA pmR) {
         if (!connected && !pmR.isSpliceosome() && !pmR.isCitosol()) { //If not connected
             pmR.connectSpliceosome(this);
             connected = true;
@@ -60,25 +60,25 @@ public class Spliceosome extends Element {
             currentP.transporte();
             disconnect();
 
-            mRNA m = new mRNA(dg);
+            MessengerRNA m = new MessengerRNA(dg);
             arrayM.add(0, m);
         }
     }
 
     //disconnect
     public void disconnect() {
-        currentP = null; // Not connected to any pre-mRNA
+        currentP = null; // Not connected to any pre-MessengerRNA
         connected = false;
         //kc = 56.2; // May connect
         //ks = 0.0; // Can't do any splicing
         //kt = 0.0; // No transport
     }
 
-    // mRNA degradation
+    // MessengerRNA degradation
     public void degrademRNA() {
         if (!arrayM.isEmpty()) {
-            mRNA m;
-            m = arrayM.get(arrayM.size()-1); // eldest mRNA
+            MessengerRNA m;
+            m = arrayM.get(arrayM.size()-1); // eldest MessengerRNA
             if (m.getRibosomes().isEmpty()) { // If no ribosome connected
                 arrayM.remove(m);
             } else {
@@ -156,19 +156,19 @@ public class Spliceosome extends Element {
         this.connected = connected;
     }
 
-    public premRNA getCurrentP() {
+    public PrecursormRNA getCurrentP() {
         return currentP;
     }
 
-    public void setCurrentP(premRNA currentP) {
+    public void setCurrentP(PrecursormRNA currentP) {
         this.currentP = currentP;
     }
 
-    public ArrayList<mRNA> getArrayM() {
+    public ArrayList<MessengerRNA> getArrayM() {
         return arrayM;
     }
 
-    public void setArrayM(ArrayList<mRNA> arrayM) {
+    public void setArrayM(ArrayList<MessengerRNA> arrayM) {
         this.arrayM = arrayM;
     }
 

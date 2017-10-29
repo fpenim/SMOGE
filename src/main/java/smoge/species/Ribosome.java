@@ -11,7 +11,7 @@ public class Ribosome extends Element {
     private int ribosomePosition;
     private int ribosomeDimension;
     private boolean connected = false;
-    private mRNA currentM;
+    private MessengerRNA currentM;
     private Protein currentProt;
     private ArrayList<Protein> protArray;
     private Spliceosome[] splRef;
@@ -41,8 +41,8 @@ public class Ribosome extends Element {
         this.kdg = kdg;
     }
 
-    // connect Ribosome-mRNA
-    public void connect(mRNA mRNA) {
+    // connect Ribosome-MessengerRNA
+    public void connect(MessengerRNA mRNA) {
         if (!connected){ // If is no longer connected
             mRNA.connectRib(this);
 
@@ -58,7 +58,7 @@ public class Ribosome extends Element {
         }
     }
 
-    // disconnect Ribosome-/-mRNA
+    // disconnect Ribosome-/-MessengerRNA
     // Check transcription abortion
     public void disconnect() {
         if (connected){
@@ -185,19 +185,19 @@ public class Ribosome extends Element {
         this.connected = connected;
     }
 
-    public mRNA getCurrent() {
+    public MessengerRNA getCurrent() {
         return currentM;
     }
 
-    public void setCurrent(mRNA current) {
+    public void setCurrent(MessengerRNA current) {
         this.currentM = current;
     }
 
-    public mRNA getCurrentM() {
+    public MessengerRNA getCurrentM() {
         return currentM;
     }
 
-    public void setCurrentM(mRNA currentM) {
+    public void setCurrentM(MessengerRNA currentM) {
         this.currentM = currentM;
     }
 

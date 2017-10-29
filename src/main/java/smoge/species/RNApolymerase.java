@@ -5,21 +5,21 @@ import java.util.ArrayList;
 /**
  * Created by fpenim on 12/12/2015.
  */
-public class RNApol extends Element {
+public class RNApolymerase extends Element {
     private int transcriptionVelocity;
     private int RNApolPosition;
     private int RNApolDimension;
     private boolean connected = false;
     private Gene gene;
     private Gene currentGene;
-    private premRNA currentP;
-    private ArrayList<premRNA> pmRNA;
+    private PrecursormRNA currentP;
+    private ArrayList<PrecursormRNA> pmRNA;
 
     // Kinetic constants
     private double kc; // connect
     private double kd; // disconnect
     private double kp; // progress
-    private double kdg; // pre-mRNA degradation
+    private double kdg; // pre-MessengerRNA degradation
 
     /**
      * Constructor
@@ -27,16 +27,16 @@ public class RNApol extends Element {
      * @param kc  k connect
      * @param kp  k avancar
      * @param kd  k desligar
-     * @param kdg k degradar pre-mRNA
+     * @param kdg k degradar pre-MessengerRNA
      */
-    public RNApol (Gene gene, double kc, double kp, double kd, double kdg) {
+    public RNApolymerase(Gene gene, double kc, double kp, double kd, double kdg) {
         transcriptionVelocity = 39;
         RNApolDimension = 25;
         RNApolPosition = -1;
         connected = false;
         currentGene = null;
         currentP = null;
-        pmRNA = new ArrayList<premRNA>();
+        pmRNA = new ArrayList<>();
         this.gene = gene;
 
         this.kc = kc;
@@ -46,11 +46,11 @@ public class RNApol extends Element {
     }
 
     // Connect
-    public boolean connect (Gene gen, int sp) { //Recebe o gene e a lista geral dos pre-mRNA
+    public boolean connect (Gene gen, int sp) { //Recebe o gene e a lista geral dos pre-MessengerRNA
         this.clean();
 
         gen.LigarRNA(this);
-        currentGene = gen; //Associa o gene a que a RNApol esta connected
+        currentGene = gen; //Associa o gene a que a RNApolymerase esta connected
         RNApolPosition = 0; //Passa a posicao a 0(promotor)
         connected = true; //connected passa a verdadeiro
 
@@ -58,9 +58,9 @@ public class RNApol extends Element {
         //kd = 0.00019;
         //kp = 65;
 
-        premRNA p = new premRNA(sp,0,0); //� criado um novo pr�-mRNA
+        PrecursormRNA p = new PrecursormRNA(sp,0,0); //� criado um novo pr�-MessengerRNA
         currentP = p;
-        pmRNA.add(0, p); //Este � adicionado � lista de pre-mRNA's
+        pmRNA.add(0, p); //Este � adicionado � lista de pre-MessengerRNA's
 
         return true;
     }
@@ -72,11 +72,11 @@ public class RNApol extends Element {
             currentP.setRnaP(false);
 
             if (RNApolPosition < currentGene.getGeneLength()) { // Check transcription abortion
-                if (currentP.isSpliceosome()) { // Any connected spliceosome to pre-mRNA
+                if (currentP.isSpliceosome()) { // Any connected spliceosome to pre-MessengerRNA
                     currentP.getSpl().disconnect(); //disconnect spliceosome
                 }
-                pmRNA.remove(currentP); //Eliminar o pre-mRNA incompleto
-                if (currentGene.getConnectedRNApol().get(0).equals(this)) { //se for o 1� RNApol da lista (ultimo a connect-se)
+                pmRNA.remove(currentP); //Eliminar o pre-MessengerRNA incompleto
+                if (currentGene.getConnectedRNApol().get(0).equals(this)) { //se for o 1� RNApolymerase da lista (ultimo a connect-se)
                     currentGene.setAvailablePromotor(true);
                 }
             }
@@ -148,17 +148,17 @@ public class RNApol extends Element {
 								currentP.setSplSitesA(currentP.getSplSitesA()+1);
 						}*/
 
-        //Quando RNApol avanca o suficiente
+        //Quando RNApolymerase avanca o suficiente
         if (RNApolPosition > RNApolDimension) {
             currentGene.setAvailablePromotor(true);
         }
-        //Qd RNApol chega ao final do gene
+        //Qd RNApolymerase chega ao final do gene
         if (RNApolPosition >= currentGene.getGeneLength()) {
             Disconnect();
         }
     }
 
-    //Eliminar pre-mRNA's j� processados em mRNA's
+    //Eliminar pre-MessengerRNA's j� processados em MessengerRNA's
     public void clean () {
         if (!pmRNA.isEmpty()) {
             for (int i=0; i<pmRNA.size(); i++) {
@@ -173,12 +173,12 @@ public class RNApol extends Element {
     public void degradePmRNA () {
         this.clean();
         if (!pmRNA.isEmpty()) {
-            premRNA pm;
+            PrecursormRNA pm;
             pm = pmRNA.get(pmRNA.size()-1);
-            if (pm.isRnaP() && pm.isSpliceosome()) { //Se estiver ligado a um spliceosoma e a uma RNApol
+            if (pm.isRnaP() && pm.isSpliceosome()) { //Se estiver ligado a um spliceosoma e a uma RNApolymerase
                 pm.getSpl().disconnect();
                 this.Disconnect();
-            } else if (pm.isRnaP() && !pm.isSpliceosome()) { //Se estiver ligado a uma RNApol
+            } else if (pm.isRnaP() && !pm.isSpliceosome()) { //Se estiver ligado a uma RNApolymerase
                 this.Disconnect();
             } else if (!pm.isRnaP() && pm.isSpliceosome()) { //Se estiver ligado a um spliceosoma
                 pm.getSpl().disconnect();
@@ -207,7 +207,7 @@ public class RNApol extends Element {
 
     public double getKp() {
         if (connected) {
-            int lim = currentGene.getConnectedRNApol().indexOf(this); //Posi��o do elemento na lista de RNApol ligados
+            int lim = currentGene.getConnectedRNApol().indexOf(this); //Posi��o do elemento na lista de RNApolymerase ligados
             if (currentGene.getConnectedRNApol().indexOf(this)== currentGene.getConnectedRNApol().size()-1 ||
                     RNApolPosition <(currentGene.getConnectedRNApol().get(lim+1).RNApolPosition)- RNApolDimension) {
                 return kp;
@@ -232,11 +232,11 @@ public class RNApol extends Element {
         return RNApolDimension;
     }
 
-    public ArrayList<premRNA> getPmRNA() {
+    public ArrayList<PrecursormRNA> getPmRNA() {
         return pmRNA;
     }
 
-    public void setPmRNA(ArrayList<premRNA> pmRNA) {
+    public void setPmRNA(ArrayList<PrecursormRNA> pmRNA) {
         this.pmRNA = pmRNA;
     }
 
@@ -272,11 +272,11 @@ public class RNApol extends Element {
         this.currentGene = gen;
     }
 
-    public premRNA getCurrentP() {
+    public PrecursormRNA getCurrentP() {
         return currentP;
     }
 
-    public void setCurrentP(premRNA currentP) {
+    public void setCurrentP(PrecursormRNA currentP) {
         this.currentP = currentP;
     }
 
@@ -312,7 +312,7 @@ public class RNApol extends Element {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RNApol other = (RNApol) obj;
+        RNApolymerase other = (RNApolymerase) obj;
         if (currentGene == null) {
             if (other.currentGene != null)
                 return false;
